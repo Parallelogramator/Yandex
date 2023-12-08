@@ -1,24 +1,38 @@
-A = []
+import pygame
 
-def f(i):
-    binn = bin(i)[2:]
-    strn = str(binn)
-    if len(bin(i % 3)[2:]) == 2:
-        binost1 = str(bin(i % 3)[2:])
-    else:
-        return False
-    strn = strn + binost1
-    if len(bin(int(strn, 2) % 5)[2:]) == 3:
-        binost2 = str(bin(int(strn, 2) % 5)[2:])
-    else:
-        return False
-    strn = strn + binost2
+if __name__ == '__main__':
+    global pos
+    pygame.init()
 
-    return int(strn, 2)
+    width, height = list(map(int, input().split()))
+    size = width, height
+    screen = pygame.display.set_mode(size)
 
-
-for i in range(1111111110, 1444444417):
-    if f(i):
-        print(i)
-        A.append(i)
-print(len(A))
+    running = True
+    st1 = 0
+    st2 = 1
+    clock = pygame.time.Clock()
+    while running:
+        screen.fill((0, 0, 255))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = event.pos
+                st1 = 0
+                st2 = 0
+        while st2 != 1:
+            pygame.draw.circle(screen, (255, 255, 0), pos, st1)
+            pygame.display.flip()
+            st1 += 10
+            clock.tick(30)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    st2 = 1
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    screen.fill((0, 0, 255))
+                    pygame.display.flip()
+                    pos = event.pos
+                    st1 = 0
+    pygame.quit()
